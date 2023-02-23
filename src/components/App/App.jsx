@@ -1,27 +1,36 @@
-import { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+// import { Provider } from 'react-redux';
+// import { nanoid } from 'nanoid';
 
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
 
+import { addContact } from 'Redux/actions';
+
+// import store from '../../Redux/store';
+
 import css from './App.module.css';
 
 export function App() {
-  const [contacts, setContacts] = useState(() => {
-    const contact = localStorage.getItem('contacts');
-    const parsedContact = JSON.parse(contact);
-    return parsedContact ?? [];
-  });
-
+  const contacts = useSelector(store => store.contacts);
+  // const [contacts, setContacts] = useState(() => {
+  //   const contact = localStorage.getItem('contacts');
+  //   const parsedContact = JSON.parse(contact);
+  //   return parsedContact ?? [];
+  // });
   const [filter, setFilter] = useState('');
 
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+  const dispatch = useDispatch();
 
-  const formSubmitHandler = (name, number) => {
-    const newContactItem = { id: nanoid(), name, number };
+  // useEffect(() => {
+  //   localStorage.setItem('contacts', JSON.stringify(contacts));
+  // }, [contacts]);
+
+  const handleAddContact = (name, number) => {
+    const newContactItem = { name, number };
 
     if (
       contacts.find(
@@ -30,14 +39,18 @@ export function App() {
     ) {
       return alert(`${newContactItem.name} is already in contacts!`);
     }
-    setContacts(prevValue => [newContactItem, ...prevValue]);
+
+    const action = addContact(newContactItem);
+    console.log(action);
+
+    dispatch(action);
   };
 
-  const onDeleteButtonClick = contactId => {
-    setContacts(prevValue =>
-      prevValue.filter(contact => contact.id !== contactId)
-    );
-  };
+  // const onDeleteButtonClick = contactId => {
+  //   setContacts(prevValue =>
+  //     prevValue.filter(contact => contact.id !== contactId)
+  //   );
+  // };
 
   const onFilterInputChange = event => {
     setFilter(event.currentTarget.value);
@@ -48,15 +61,17 @@ export function App() {
   );
 
   return (
+    // <Provider store={store}>
     <div className={css.phonebook}>
       <h1 className={css.main__title}>Phonebook</h1>
-      <ContactForm onSubmit={formSubmitHandler} />
+      <ContactForm onSubmit={handleAddContact} />
       <div>
         <h2 className={css.main__title}>Contacts</h2>
         <Filter filter={onFilterInputChange} filterValue={filter} />
-        <ContactList deleteBtn={onDeleteButtonClick} contact={filteredItem} />
+        <ContactList contact={filteredItem} />
       </div>
     </div>
+    // </Provider>
   );
 }
 

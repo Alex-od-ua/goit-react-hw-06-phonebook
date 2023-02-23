@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import css from './Filter.module.css';
 
 export const Filter = ({ filter, filterValue }) => {
+  const filterW = useSelector(store => store.filter);
+  console.log(filterW);
+
   return (
     <div className={css.filter__item}>
       <h3 className={css.filter__title}>Find contacts by name</h3>
