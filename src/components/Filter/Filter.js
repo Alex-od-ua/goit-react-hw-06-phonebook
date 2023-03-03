@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+// import PropTypes from 'prop-types';
+// import { useSelector } from 'react-redux';
 
 import css from './Filter.module.css';
 
-export const Filter = ({ filter, filterValue }) => {
-  const filterW = useSelector(store => store.filter);
-  console.log(filterW);
+export const Filter = ({ handleChange, value }) => {
+  // const filterW = useSelector(store => store.filter);
+  // console.log(filterW);
 
   return (
     <div className={css.filter__item}>
@@ -13,15 +13,15 @@ export const Filter = ({ filter, filterValue }) => {
       <input
         className={css.filter__input}
         type="text"
-        value={filterValue}
+        value={value}
         pattern="^[a-zA-Za-яА-Я]+(([' -][a-zA-Za-яА-Я ])?[a-zA-Za-яА-Я]*)*$"
-        onChange={filter}
+        onChange={handleChange}
       />
     </div>
   );
 };
 
-Filter.propTypes = {
-  filter: PropTypes.func.isRequired,
-  filterValue: PropTypes.string.isRequired,
-};
+// Filter.propTypes = {
+//   filter: PropTypes.func.isRequired,
+//   filterValue: PropTypes.string.isRequired,
+// };
