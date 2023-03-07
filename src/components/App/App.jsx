@@ -1,10 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Provider } from 'react-redux';
 
-import { addContact, deleteContact, setFilter } from 'Redux/actions';
-import { getContacts, getFilter, getFilteredContacts } from 'Redux/selectors';
-
-import store from '../../Redux/store';
+import { addContact, deleteContact } from 'Redux/contacts/contacts-actions';
+import { setFilter } from 'Redux/filter/filter-actions';
+import {
+  getContacts,
+  getFilteredContacts,
+} from 'Redux/contacts/contacts-selectors';
+import { getFilter } from 'Redux/filter/filter-selectors';
 
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Filter } from 'components/Filter/Filter';
@@ -42,19 +44,17 @@ export function App() {
   };
 
   return (
-    <Provider store={store}>
-      <div className={css.phonebook}>
-        <h1 className={css.main__title}>Phonebook</h1>
-        <ContactForm onSubmit={handleAddContact} />
-        <div>
-          <h2 className={css.main__title}>Contacts</h2>
-          <Filter handleChange={handleFilter} value={filter} />
-          <ContactList
-            deleteBtn={handleDeleteContact}
-            contact={filteredContacts}
-          />
-        </div>
+    <div className={css.phonebook}>
+      <h1 className={css.main__title}>Phonebook</h1>
+      <ContactForm onSubmit={handleAddContact} />
+      <div>
+        <h2 className={css.main__title}>Contacts</h2>
+        <Filter handleChange={handleFilter} value={filter} />
+        <ContactList
+          deleteBtn={handleDeleteContact}
+          contact={filteredContacts}
+        />
       </div>
-    </Provider>
+    </div>
   );
 }
