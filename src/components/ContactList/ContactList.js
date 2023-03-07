@@ -1,12 +1,8 @@
 import PropTypes from 'prop-types';
 
-// import { useSelector } from 'react-redux';
-
 import css from './ContactList.module.css';
 
 export const ContactList = ({ deleteBtn, contact }) => {
-  // const contact = useSelector(store => store.contacts);
-
   return (
     <ul className={css.contact__list}>
       {contact.map(({ id, name, number }) => (
